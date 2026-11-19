@@ -41,10 +41,10 @@ This pipeline processes real-time GitHub webhooks locally using a **5-node n8n w
 
 ```mermaid
 flowchart LR
-    A[GitHub Issue Opened] -->|HTTPS Webhook via Cloudflare Tunnel| B[n8n Trigger<br/>Docker :5678]
-    B --> C{Filter Node<br/>action == opened?}
-    C -->|No - Drop in ~230ms| X[Stop Execution]
-    C -->|Yes| D[Basic LLM Chain]
-    D <-->|host.docker.internal:11434| E[Local Ollama<br/>qwen2.5:3b]
-    D -->|Raw JSON| F[Code Node<br/>JavaScript Parser]
-    F -->|Formatted Markdown| G[GitHub API<br/>Post Triage Comment]
+    A[GitHub Issue<br/>Opened] -->|Cloudflare<br/>Tunnel| B[n8n<br/>Docker :5678]
+    B --> C{action ==<br/>opened?}
+    C -->|No| X[Drop<br/>~230ms]
+    C -->|Yes| D[LLM Chain]
+    D <-->|Local| E[Ollama<br/>qwen2.5:3b]
+    D --> F[JS Parser]
+    F --> G[GitHub<br/>Comment]
